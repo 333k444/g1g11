@@ -1,3 +1,5 @@
+set_property SEVERITY {Warning} [get_drc_checks LUTLP-1]
+set_property USED_IN write_bitstream [get_files ./constrs_1/new/Basys3.xdc]
 ## Clock signal
 set_property PACKAGE_PIN W5 [get_ports clk]							
 	set_property IOSTANDARD LVCMOS33 [get_ports clk]

@@ -3,20 +3,20 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity Basys3 is
     Port (
-        sw          : in   std_logic_vector (15 downto 0); -- No Tocar - Señales de entrada de los interruptores -- Arriba   = '1'   -- Los 16 swiches.
-        btn         : in   std_logic_vector (4 downto 0);  -- No Tocar - Señales de entrada de los botones       -- Apretado = '1'   -- 0 central, 1 arriba, 2 izquierda, 3 derecha y 4 abajo.
-        led         : out  std_logic_vector (15 downto 0); -- No Tocar - Señales de salida  a  los leds          -- Prendido = '1'   -- Los 16 leds.
-        clk         : in   std_logic;                      -- No Tocar - Señal de entrada del clock              -- 100Mhz.
-        seg         : out  std_logic_vector (7 downto 0);  -- No Tocar - Salida de las señales de segmentos.
+        sw          : in   std_logic_vector (15 downto 0); -- No Tocar - Seï¿½ales de entrada de los interruptores -- Arriba   = '1'   -- Los 16 swiches.
+        btn         : in   std_logic_vector (4 downto 0);  -- No Tocar - Seï¿½ales de entrada de los botones       -- Apretado = '1'   -- 0 central, 1 arriba, 2 izquierda, 3 derecha y 4 abajo.
+        led         : out  std_logic_vector (15 downto 0); -- No Tocar - Seï¿½ales de salida  a  los leds          -- Prendido = '1'   -- Los 16 leds.
+        clk         : in   std_logic;                      -- No Tocar - Seï¿½al de entrada del clock              -- 100Mhz.
+        seg         : out  std_logic_vector (7 downto 0);  -- No Tocar - Salida de las seï¿½ales de segmentos.
         an          : out  std_logic_vector (3 downto 0);  -- No Tocar - Salida del selector de diplay.
-        tx          : out  std_logic;                      -- No Tocar - Señal de salida para UART Tx.
-        rx          : in   std_logic                       -- No Tocar - Señal de entrada para UART Rx.
+        tx          : out  std_logic;                      -- No Tocar - Seï¿½al de salida para UART Tx.
+        rx          : in   std_logic                       -- No Tocar - Seï¿½al de entrada para UART Rx.
           );
 end Basys3;
 
 architecture Behavioral of Basys3 is
 
--- Inicio de la declaración de los componentes.
+-- Inicio de la declaraciï¿½n de los componentes.
 
 component Clock_Divider -- No Tocar
     Port (
@@ -94,37 +94,37 @@ component CPU is
            dis : out STD_LOGIC_VECTOR (15 downto 0));
     end component;
 
--- Fin de la declaración de los componentes.
+-- Fin de la declaraciï¿½n de los componentes.
 
--- Inicio de la declaración de señales.
+-- Inicio de la declaraciï¿½n de seï¿½ales.
 
-signal clock            : std_logic;                     -- Señal del clock reducido.
+signal clock            : std_logic;                     -- Seï¿½al del clock reducido.
             
-signal dis_a            : std_logic_vector(3 downto 0);  -- Señales de salida al display A.    
-signal dis_b            : std_logic_vector(3 downto 0);  -- Señales de salida al display B.     
-signal dis_c            : std_logic_vector(3 downto 0);  -- Señales de salida al display C.    
-signal dis_d            : std_logic_vector(3 downto 0);  -- Señales de salida al display D.
+signal dis_a            : std_logic_vector(3 downto 0);  -- Seï¿½ales de salida al display A.    
+signal dis_b            : std_logic_vector(3 downto 0);  -- Seï¿½ales de salida al display B.     
+signal dis_c            : std_logic_vector(3 downto 0);  -- Seï¿½ales de salida al display C.    
+signal dis_d            : std_logic_vector(3 downto 0);  -- Seï¿½ales de salida al display D.
 
-signal dis              : std_logic_vector(15 downto 0); -- Señales de salida totalidad de los displays.
+signal dis              : std_logic_vector(15 downto 0); -- Seï¿½ales de salida totalidad de los displays.
 
-signal d_btn            : std_logic_vector(4 downto 0);  -- Señales de botones con anti-rebote.
+signal d_btn            : std_logic_vector(4 downto 0);  -- Seï¿½ales de botones con anti-rebote.
 
-signal write_rom        : std_logic;                     -- Señal de escritura de la ROM.
-signal pro_address      : std_logic_vector(11 downto 0); -- Señales del direccionamiento de programación de la ROM.
-signal rom_datain       : std_logic_vector(35 downto 0); -- Señales de la palabra a programar en la ROM.
+signal write_rom        : std_logic;                     -- Seï¿½al de escritura de la ROM.
+signal pro_address      : std_logic_vector(11 downto 0); -- Seï¿½ales del direccionamiento de programaciï¿½n de la ROM.
+signal rom_datain       : std_logic_vector(35 downto 0); -- Seï¿½ales de la palabra a programar en la ROM.
 
-signal clear            : std_logic;                     -- Señal de limpieza de registros durante la programación.
+signal clear            : std_logic;                     -- Seï¿½al de limpieza de registros durante la programaciï¿½n.
 
-signal cpu_rom_address  : std_logic_vector(11 downto 0); -- Señales del direccionamiento de lectura de la ROM.
-signal rom_address      : std_logic_vector(11 downto 0); -- Señales del direccionamiento de la ROM.
-signal rom_dataout      : std_logic_vector(35 downto 0); -- Señales de la palabra de salida de la ROM.
+signal cpu_rom_address  : std_logic_vector(11 downto 0); -- Seï¿½ales del direccionamiento de lectura de la ROM.
+signal rom_address      : std_logic_vector(11 downto 0); -- Seï¿½ales del direccionamiento de la ROM.
+signal rom_dataout      : std_logic_vector(35 downto 0); -- Seï¿½ales de la palabra de salida de la ROM.
 
-signal write_ram        : std_logic;                     -- Señal de escritura de la RAM.
-signal ram_address      : std_logic_vector(11 downto 0); -- Señales del direccionamiento de la RAM.
-signal ram_datain       : std_logic_vector(15 downto 0); -- Señales de la palabra de entrada de la RAM.
-signal ram_dataout      : std_logic_vector(15 downto 0); -- Señales de la palabra de salida de la RAM.
+signal write_ram        : std_logic;                     -- Seï¿½al de escritura de la RAM.
+signal ram_address      : std_logic_vector(11 downto 0); -- Seï¿½ales del direccionamiento de la RAM.
+signal ram_datain       : std_logic_vector(15 downto 0); -- Seï¿½ales de la palabra de entrada de la RAM.
+signal ram_dataout      : std_logic_vector(15 downto 0); -- Seï¿½ales de la palabra de salida de la RAM.
 
--- Fin de la declaración de los señales.
+-- Fin de la declaraciï¿½n de los seï¿½ales.
 
 begin
 
@@ -138,7 +138,7 @@ with clear select
     rom_address <= cpu_rom_address when '0',
                    pro_address when '1';
                    
--- Inicio de declaración de instancias.
+-- Inicio de declaraciï¿½n de instancias.
 
 -- Instancia de la CPU.        
 inst_CPU: CPU port map(
@@ -172,21 +172,21 @@ inst_RAM: RAM port map(
     dataout     => ram_dataout
     );
     
- -- Intancia del divisor de la señal del clock.
+ -- Intancia del divisor de la seï¿½al del clock.
 inst_Clock_Divider: Clock_Divider port map(
-    speed       => "11",                    -- Selector de velocidad: "00" full, "01" fast, "10" normal y "11" slow. 
-    clk         => clk,                     -- No Tocar - Entrada de la señal del clock completo (100Mhz).
-    clock       => clock                    -- No Tocar - Salida de la señal del clock reducido: 25Mhz, 8hz, 2hz y 0.5hz.
+    speed       => "10",                    -- Selector de velocidad: "00" full, "01" fast, "10" normal y "11" slow. 
+    clk         => clk,                     -- No Tocar - Entrada de la seï¿½al del clock completo (100Mhz).
+    clock       => clock                    -- No Tocar - Salida de la seï¿½al del clock reducido: 25Mhz, 8hz, 2hz y 0.5hz.
     );
     
  -- No Tocar - Intancia del controlador de los displays de 8 segmentos.    
 inst_Display_Controller: Display_Controller port map(
-    dis_a       => dis_a,                   -- No Tocar - Entrada de señales para el display A.
-    dis_b       => dis_b,                   -- No Tocar - Entrada de señales para el display B.
-    dis_c       => dis_c,                   -- No Tocar - Entrada de señales para el display C.
-    dis_d       => dis_d,                   -- No Tocar - Entrada de señales para el display D.
+    dis_a       => dis_a,                   -- No Tocar - Entrada de seï¿½ales para el display A.
+    dis_b       => dis_b,                   -- No Tocar - Entrada de seï¿½ales para el display B.
+    dis_c       => dis_c,                   -- No Tocar - Entrada de seï¿½ales para el display C.
+    dis_d       => dis_d,                   -- No Tocar - Entrada de seï¿½ales para el display D.
     clk         => clk,                     -- No Tocar - Entrada del clock completo (100Mhz).
-    seg         => seg,                     -- No Tocar - Salida de las señales de segmentos.
+    seg         => seg,                     -- No Tocar - Salida de las seï¿½ales de segmentos.
     an          => an                       -- No Tocar - Salida del selector de diplay.
 	);
     
@@ -199,18 +199,18 @@ inst_Debouncer4: Debouncer port map( clk => clk, signal_in => btn(4), signal_out
 
 -- No Tocar - Intancia del ROM Programmer.           
 inst_Programmer: Programmer port map(
-    rx          => rx,                      -- No Tocar - Salida de la señal de transmición.
-    tx          => tx,                      -- No Tocar - Entrada de la señal de recepción.
+    rx          => rx,                      -- No Tocar - Salida de la seï¿½al de transmiciï¿½n.
+    tx          => tx,                      -- No Tocar - Entrada de la seï¿½al de recepciï¿½n.
     clk         => clk,                     -- No Tocar - Entrada del clock completo (100Mhz).
     clock       => clock,                   -- No Tocar - Entrada del clock reducido.
-    bussy       => clear,                   -- No Tocar - Salida de la señal de programación.
-    ready       => write_rom,               -- No Tocar - Salida de la señal de escritura de la ROM.
-    address     => pro_address(11 downto 0),-- No Tocar - Salida de señales del address de la ROM.
-    dataout     => rom_datain               -- No Tocar - Salida de señales palabra de entrada de la ROM.
+    bussy       => clear,                   -- No Tocar - Salida de la seï¿½al de programaciï¿½n.
+    ready       => write_rom,               -- No Tocar - Salida de la seï¿½al de escritura de la ROM.
+    address     => pro_address(11 downto 0),-- No Tocar - Salida de seï¿½ales del address de la ROM.
+    dataout     => rom_datain               -- No Tocar - Salida de seï¿½ales palabra de entrada de la ROM.
         );
         
--- Fin de declaración de instancias.
+-- Fin de declaraciï¿½n de instancias.
 
--- Fin de declaración de comportamientos.
+-- Fin de declaraciï¿½n de comportamientos.
   
 end Behavioral;
